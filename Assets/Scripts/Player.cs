@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Camera camMain;
     [SerializeField] private float moveSpeed = 5;
     [SerializeField] private float rotationSpeed = 5;
+    [SerializeField] private ParticleSystem gunFireParticles;
 
     private PlayerInput playerInput;
     private InputAction moveAction;
@@ -66,7 +67,7 @@ public class Player : MonoBehaviour
 
     private void Fire(InputAction.CallbackContext context)
     {
-
+        gunFireParticles.Play();
     }
 
     private void Dash(InputAction.CallbackContext context)
