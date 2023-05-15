@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Camera camMain;
     [SerializeField] private float moveSpeed = 5;
+    [SerializeField] private float rotationSpeed = 5;
 
     private PlayerInput playerInput;
     private InputAction moveAction;
@@ -14,9 +15,9 @@ public class Player : MonoBehaviour
     private InputAction dashAction;
 
     private Vector3 moveDirection;
-    private Vector2 aimDirection;
+    private Vector3 aimDirection;
 
-    private Quaternion camForward;
+    private Quaternion camForwardOn2DPlane;
 
     private void Awake()
     {
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour
         fireAction = playerInput.actions["Fire"];
         dashAction = playerInput.actions["Dash"];
 
-        camForward = Quaternion.Euler(0, 146, 0);
+        camForwardOn2DPlane = Quaternion.Euler(0, camMain.transform.eulerAngles.y, 0);
 
         moveAction.Enable();
 
@@ -44,19 +45,23 @@ public class Player : MonoBehaviour
     private void GetInput()
     {
         moveDirection = new Vector3(moveAction.ReadValue<Vector2>().x, 0, moveAction.ReadValue<Vector2>().y);
-        aimDirection = aimAction.ReadValue<Vector2>();
+        aimDirection = new Vector3(aimAction.ReadValue<Vector2>().x, 0, aimAction.ReadValue<Vector2>().y);
 
         Debug.Log(moveDirection);
     }
 
     private void Move()
     {
-        transform.position += Quaternion.Euler(0, camMain.transform.eulerAngles.y, 0) * moveDirection * moveSpeed * Time.deltaTime;
+        transform.position += camForwardOn2DPlane * moveDirection * moveSpeed * Time.deltaTime;
     }
     
     private void Aim()
     {
-
+        if (aimDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(aimDirection) * camForwardOn2DPlane;
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 
     private void Fire(InputAction.CallbackContext context)

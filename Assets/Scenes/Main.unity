@@ -9418,6 +9418,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Pawn_Weapon_Male_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1656350130264164, guid: 5423795e6dfd69e4f89c48865dba38bc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4843438260029586, guid: 5423795e6dfd69e4f89c48865dba38bc, type: 3}
       propertyPath: m_RootOrder
       value: 49
@@ -31768,6 +31772,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1249064352584784, guid: 8dbb22b9d53a7664b8619d4c6888d92f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1474716975392518, guid: 8dbb22b9d53a7664b8619d4c6888d92f, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -32676,6 +32684,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4874802182062810, guid: 5171d5eb12e0f184a8761aa4157f7d00, type: 3}
   m_PrefabInstance: {fileID: 1415887353}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1428647866 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4387438620459558, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+  m_PrefabInstance: {fileID: 1659217253}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1430116715
 PrefabInstance:
@@ -36759,6 +36772,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1402121456}
+  - {fileID: 1428647866}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -36774,7 +36788,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f72a62db76dd73e4c995df3443bb0ea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camMain: {fileID: 1915159930}
   moveSpeed: 5
+  rotationSpeed: 5
 --- !u!114 &1573546953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38161,6 +38177,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4874802182062810, guid: 5171d5eb12e0f184a8761aa4157f7d00, type: 3}
   m_PrefabInstance: {fileID: 1657520024}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1659217253
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1573546951}
+    m_Modifications:
+    - target: {fileID: 1348288584672764, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+      propertyPath: m_Name
+      value: SM_Pawn_Weapon_Male_01 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387438620459558, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387438620459558, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387438620459558, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387438620459558, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387438620459558, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387438620459558, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387438620459558, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387438620459558, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7ab16310faa910d40b16db3d54919077, type: 3}
 --- !u!1001 &1659789103
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43948,14 +44009,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915159926}
-  m_LocalRotation: {x: -0.36596167, y: 0.27011892, z: -0.11188689, w: -0.88350964}
-  m_LocalPosition: {x: 8.44, y: 18.14, z: -13.28}
+  m_LocalRotation: {x: 0.111885846, y: 0.8835104, z: -0.36596197, w: 0.27011633}
+  m_LocalPosition: {x: -10.67, y: 18.14, z: 15.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 45, y: 326, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 146, z: 0}
 --- !u!1001 &1916683993
 PrefabInstance:
   m_ObjectHideFlags: 0
