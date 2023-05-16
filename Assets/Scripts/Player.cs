@@ -4,10 +4,15 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    [Header ("Serialized Objects")]
     [SerializeField] private Camera camMain;
+    [SerializeField] private GameObject gunFireParticles;
+    [SerializeField] private Transform gunOutput;
+
+    [Header ("Settings")]
     [SerializeField] private float moveSpeed = 5;
     [SerializeField] private float rotationSpeed = 5;
-    [SerializeField] private ParticleSystem gunFireParticles;
+    [SerializeField] private float fireRate = 10;
 
     private PlayerInput playerInput;
     private InputAction moveAction;
@@ -20,6 +25,10 @@ public class Player : MonoBehaviour
 
     private Quaternion camForwardOn2DPlane;
 
+    private float fireElapsedTime = 0;
+
+    private bool isFiring = false;
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -30,30 +39,45 @@ public class Player : MonoBehaviour
 
         camForwardOn2DPlane = Quaternion.Euler(0, camMain.transform.eulerAngles.y, 0);
 
-        moveAction.Enable();
-
-        fireAction.performed += Fire;
+        fireAction.performed += OnPerformFire;
+        fireAction.canceled += OnCancelFire;
         dashAction.performed += Dash;
+    }
+
+    private void OnPerformFire(InputAction.CallbackContext context)
+    {
+        isFiring = true;
+        fireElapsedTime = fireRate;
+    }
+
+    private void OnCancelFire(InputAction.CallbackContext context)
+    {
+        isFiring = false;
     }
 
     private void Update()
     {
         GetInput();
+
+        if (isFiring)
+            Fire();
+    }
+
+    private void FixedUpdate()
+    {
         Move();
         Aim();
     }
-    
+
     private void GetInput()
     {
         moveDirection = new Vector3(moveAction.ReadValue<Vector2>().x, 0, moveAction.ReadValue<Vector2>().y);
         aimDirection = new Vector3(aimAction.ReadValue<Vector2>().x, 0, aimAction.ReadValue<Vector2>().y);
-
-        Debug.Log(moveDirection);
     }
 
     private void Move()
     {
-        transform.position += camForwardOn2DPlane * moveDirection * moveSpeed * Time.deltaTime;
+        transform.position += camForwardOn2DPlane * moveDirection * moveSpeed * Time.fixedDeltaTime;
     }
     
     private void Aim()
@@ -61,17 +85,30 @@ public class Player : MonoBehaviour
         if (aimDirection != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(aimDirection) * camForwardOn2DPlane;
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
 
-    private void Fire(InputAction.CallbackContext context)
+    private void Fire()
     {
-        gunFireParticles.Play();
+        fireElapsedTime += Time.deltaTime;
+
+        if (fireElapsedTime > fireRate)
+        {
+            fireElapsedTime = 0;
+            Instantiate(gunFireParticles, gunOutput);
+        }
     }
 
     private void Dash(InputAction.CallbackContext context)
     {
 
+    }
+
+    private void OnDestroy()
+    {
+        fireAction.performed -= OnPerformFire;
+        fireAction.canceled -= OnCancelFire;
+        dashAction.performed -= Dash;
     }
 }
