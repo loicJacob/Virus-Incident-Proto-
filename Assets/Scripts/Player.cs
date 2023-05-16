@@ -6,28 +6,36 @@ public class Player : MonoBehaviour
 {
     [Header ("Serialized Objects")]
     [SerializeField] private Camera camMain;
-    [SerializeField] private GameObject gunFireParticles;
-    [SerializeField] private Transform gunOutput;
+    [SerializeField] private GameObject lamp;
+    [SerializeField] private GameObject oneHandedGunSlot;
+    [SerializeField] private GameObject twoHandedGunSlot;
+    [SerializeField] private GameObject specialGunSlot;
 
     [Header ("Settings")]
     [SerializeField] private float moveSpeed = 5;
     [SerializeField] private float rotationSpeed = 5;
-    [SerializeField] private float fireRate = 10;
 
     private PlayerInput playerInput;
     private InputAction moveAction;
     private InputAction aimAction;
     private InputAction fireAction;
-    private InputAction dashAction;
+    private InputAction throwAction;
+    private InputAction knifeAction;
+    private InputAction lampAction;
+    private InputAction reloadAction;
+    private InputAction changeWeaponAction;
+    private InputAction changeThrowAction;
+    private InputAction weaponAbilityAction;
+
+    private Gun currentGun;
 
     private Vector3 moveDirection;
     private Vector3 aimDirection;
 
     private Quaternion camForwardOn2DPlane;
 
-    private float fireElapsedTime = 0;
-
     private bool isFiring = false;
+    private bool isHoldingOneHandedGun = true;
 
     private void Awake()
     {
@@ -35,19 +43,35 @@ public class Player : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         aimAction = playerInput.actions["Aim"];
         fireAction = playerInput.actions["Fire"];
-        dashAction = playerInput.actions["Dash"];
+        throwAction = playerInput.actions["Throw"];
+        knifeAction = playerInput.actions["Knife"];
+        lampAction = playerInput.actions["Lamp"];
+        reloadAction = playerInput.actions["Reload"];
+        changeWeaponAction = playerInput.actions["Change Weapon"];
+        changeThrowAction = playerInput.actions["Change Throw"];
+        weaponAbilityAction = playerInput.actions["Weapon Ability"];
 
         camForwardOn2DPlane = Quaternion.Euler(0, camMain.transform.eulerAngles.y, 0);
 
         fireAction.performed += OnPerformFire;
         fireAction.canceled += OnCancelFire;
-        dashAction.performed += Dash;
+        throwAction.performed += Throw;
+        knifeAction.performed += Knife;
+        lampAction.performed += Lamp;
+        reloadAction.performed += Reload;
+        changeWeaponAction.performed += ChangeWeapon;
+        changeThrowAction.performed += ChangeThrow;
+        weaponAbilityAction.performed += WeaponAbility;
+    }
+
+    private void Start()
+    {
+        currentGun = oneHandedGunSlot.GetComponentInChildren<Gun>();
     }
 
     private void OnPerformFire(InputAction.CallbackContext context)
     {
         isFiring = true;
-        fireElapsedTime = fireRate;
     }
 
     private void OnCancelFire(InputAction.CallbackContext context)
@@ -91,16 +115,45 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
-        fireElapsedTime += Time.deltaTime;
-
-        if (fireElapsedTime > fireRate)
-        {
-            fireElapsedTime = 0;
-            Instantiate(gunFireParticles, gunOutput);
-        }
+        currentGun.Shoot();
     }
 
-    private void Dash(InputAction.CallbackContext context)
+    private void Throw(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void Reload(InputAction.CallbackContext context)
+    {
+        currentGun.Reload();
+    }
+
+    private void Knife(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void Lamp(InputAction.CallbackContext context)
+    {
+        lamp.SetActive(!lamp.activeSelf);
+    }
+
+    private void WeaponAbility(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void ChangeWeapon(InputAction.CallbackContext context)
+    {
+        isHoldingOneHandedGun = !isHoldingOneHandedGun;
+
+        currentGun.transform.parent.gameObject.SetActive(false);
+        currentGun = isHoldingOneHandedGun ? oneHandedGunSlot.GetComponentInChildren<Gun>() : twoHandedGunSlot.GetComponentInChildren<Gun>();
+        currentGun.transform.parent.gameObject.SetActive(true);
+        
+    }
+
+    private void ChangeThrow(InputAction.CallbackContext context)
     {
 
     }
@@ -109,6 +162,5 @@ public class Player : MonoBehaviour
     {
         fireAction.performed -= OnPerformFire;
         fireAction.canceled -= OnCancelFire;
-        dashAction.performed -= Dash;
     }
 }

@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dash",
-                    "type": "Button",
-                    "id": "87506a4d-3655-4870-ade5-a4760bb5eff7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Change Weapon",
                     "type": "Button",
                     "id": "58ec5fea-e31e-4ca4-bd26-ce3e22a63640",
@@ -78,9 +69,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Change Throw Weapon",
+                    "name": "Change Throw",
                     "type": "Button",
                     "id": "11d13cb3-bf7b-433e-b703-fd21c5c1fad6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lamp",
+                    "type": "Button",
+                    "id": "d49c05b1-6e6c-4be7-b751-396cada9d7c1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "knife",
+                    "type": "Button",
+                    "id": "4bf85e98-04e4-4040-9e7c-b460ae8b2edd",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -95,7 +104,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Change Throw Weapon",
+                    "action": "Change Throw",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -106,7 +115,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Change Throw Weapon",
+                    "action": "Change Throw",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -117,7 +126,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Change Throw Weapon",
+                    "action": "Change Throw",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -140,17 +149,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "afc7b07a-63f5-4d4e-a4c8-e5f52fd3e2a7",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -263,6 +261,28 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "1d602bc9-71a5-43f2-900e-5dd95b88c2ee",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Lamp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73de13f6-8406-4d3e-8d09-f3ff0a316014",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "knife",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

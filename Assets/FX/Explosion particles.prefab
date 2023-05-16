@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 198146752706458318}
   - component: {fileID: 199960877399999766}
   m_Layer: 0
-  m_Name: Gun_Fire_Placeholder
+  m_Name: Explosion particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
