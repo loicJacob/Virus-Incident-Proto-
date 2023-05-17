@@ -6,7 +6,7 @@ public class Gun : MonoBehaviour
 {
     [SerializeField] private GameObject fireParticles;
     [SerializeField] private Transform gunOutput;
-    [SerializeField] private int amoNumInMagazine;
+    [SerializeField] private int maxAmoInMagazine;
     [SerializeField] private int magazineNum;
     [SerializeField] private float fireRate = 0.1f;
 
@@ -17,12 +17,14 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         for (int i = 0; i < magazineNum; i++)
-            magazines.Add(amoNumInMagazine);
+            magazines.Add(maxAmoInMagazine);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         fireElapsedTime = fireRate;
+        UIManager.Instance.HUD.GetComponent<HUD>().SetAmoText(magazines[currentMagazinIndex], maxAmoInMagazine);
+        UIManager.Instance.HUD.GetComponent<HUD>().SetMagazineText(magazineNum);
     }
 
     private void Update()
@@ -39,6 +41,8 @@ public class Gun : MonoBehaviour
             {
                 Instantiate(fireParticles, gunOutput).GetComponent<ParticleSystem>().Play();
                 magazines[currentMagazinIndex]--;
+
+                UIManager.Instance.HUD.GetComponent<HUD>().SetAmoText(magazines[currentMagazinIndex], maxAmoInMagazine);
             }
         }
     }
@@ -49,5 +53,7 @@ public class Gun : MonoBehaviour
 
         if (currentMagazinIndex == magazineNum - 1)
             currentMagazinIndex = 0;
+
+        UIManager.Instance.HUD.GetComponent<HUD>().SetAmoText(magazines[currentMagazinIndex], maxAmoInMagazine);
     }
 }

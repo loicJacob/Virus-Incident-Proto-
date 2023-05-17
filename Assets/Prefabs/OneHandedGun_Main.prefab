@@ -414,6 +414,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireParticles: {fileID: 8123037973444442997, guid: 0fda4c5de2518c048b78f92910f8ab7c, type: 3}
   gunOutput: {fileID: 1956271558}
-  amoNumInMagazine: 7
+  maxAmoInMagazine: 7
   magazineNum: 5
   fireRate: 1.5
