@@ -161,6 +161,7 @@ public class ThirdPersonController : MonoBehaviour
         if (isReloadMenuOpen)
         {
             UIManager.Instance.CloseScreen(UIManager.Screens.RELOAD);
+            isReloadMenuOpen = false;
             return;
         }
 
