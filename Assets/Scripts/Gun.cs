@@ -23,8 +23,8 @@ public class Gun : MonoBehaviour
     private void OnEnable()
     {
         fireElapsedTime = fireRate;
+
         UIManager.Instance.HUD.GetComponent<HUD>().SetAmoText(magazines[currentMagazinIndex], maxAmoInMagazine);
-        UIManager.Instance.HUD.GetComponent<HUD>().SetMagazineText(magazineNum);
     }
 
     private void Update()

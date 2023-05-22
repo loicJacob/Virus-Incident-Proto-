@@ -24,34 +24,52 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Fire",
+                    "name": "Jump",
                     "type": "Button",
-                    "id": "43754f9a-2b11-4ab1-b134-12554f8c55d9",
+                    "id": "f711565c-afa7-4b4d-bb1d-c3f688556e5c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Change Weapon",
-                    "type": "Button",
+                    "name": "Sprint",
+                    "type": "PassThrough",
+                    "id": "ffdcebd1-3742-49f8-98fe-260feea3beb4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Fire",
+                    "type": "PassThrough",
+                    "id": "43754f9a-2b11-4ab1-b134-12554f8c55d9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeWeapon",
+                    "type": "PassThrough",
                     "id": "58ec5fea-e31e-4ca4-bd26-ce3e22a63640",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Reload",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "71da1c18-035a-4278-803e-95ea1902b726",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Weapon Ability",
+                    "name": "WeaponAbility",
                     "type": "Button",
                     "id": "f525942a-31a5-424c-933c-cb533f3b1298",
                     "expectedControlType": "Button",
@@ -61,15 +79,15 @@
                 },
                 {
                     "name": "Throw",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "cb502746-1a85-4d95-a8be-e06fc23620ed",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Change Throw",
+                    "name": "ChangeThrow",
                     "type": "Button",
                     "id": "11d13cb3-bf7b-433e-b703-fd21c5c1fad6",
                     "expectedControlType": "Button",
@@ -87,7 +105,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "knife",
+                    "name": "Knife",
                     "type": "Button",
                     "id": "4bf85e98-04e4-4040-9e7c-b460ae8b2edd",
                     "expectedControlType": "Button",
@@ -104,7 +122,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Change Throw",
+                    "action": "ChangeThrow",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -115,7 +133,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Change Throw",
+                    "action": "ChangeThrow",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -126,7 +144,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Change Throw",
+                    "action": "ChangeThrow",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -170,7 +188,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Change Weapon",
+                    "action": "ChangeWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -192,7 +210,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Weapon Ability",
+                    "action": "WeaponAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -280,7 +298,51 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "knife",
+                    "action": "Knife",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66ecb6f9-37f3-4696-91a2-e443854a3b15",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2e79878-0a72-4924-930f-a8999e29ce6e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c77616b-3825-481d-a561-b92e2241cbb1",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2285b89-8746-47b9-9479-2d4c4c738853",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
