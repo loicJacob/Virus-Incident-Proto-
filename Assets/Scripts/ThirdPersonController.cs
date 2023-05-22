@@ -338,13 +338,6 @@ public class ThirdPersonController : MonoBehaviour
             verticalVelocity += gravity * Time.deltaTime;
     }
 
-    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
-    {
-        if (lfAngle < -360f) lfAngle += 360f;
-        if (lfAngle > 360f) lfAngle -= 360f;
-        return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
-
     private void OnDrawGizmosSelected()
     {
         Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
@@ -359,6 +352,7 @@ public class ThirdPersonController : MonoBehaviour
             groundedRadius);
     }
 
+    // Called in animation frame
     private void OnFootstep(AnimationEvent animationEvent)
     {
         if (animationEvent.animatorClipInfo.weight > 0.5f)
@@ -371,6 +365,7 @@ public class ThirdPersonController : MonoBehaviour
         }
     }
 
+    // Called in animation frame
     private void OnLand(AnimationEvent animationEvent)
     {
         if (animationEvent.animatorClipInfo.weight > 0.5f)
