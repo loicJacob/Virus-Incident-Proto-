@@ -160,7 +160,7 @@ public class ThirdPersonController : MonoBehaviour
     {
         if (isReloadMenuOpen)
         {
-            Debug.Log("Close reload Menu here");
+            UIManager.Instance.CloseScreen(UIManager.Screens.RELOAD);
             return;
         }
 
@@ -171,10 +171,10 @@ public class ThirdPersonController : MonoBehaviour
     {
         isReloadMenuOpen = !isReloadMenuOpen;
 
-        if (!isReloadMenuOpen)
-            Debug.Log("Open reload Menu here");
+        if (isReloadMenuOpen)
+            UIManager.Instance.OpenScreen(UIManager.Screens.RELOAD);
         else
-            Debug.Log("Close reload Menu here");
+            UIManager.Instance.CloseScreen(UIManager.Screens.RELOAD);
     }
 
     private void AssignAnimationIDs()

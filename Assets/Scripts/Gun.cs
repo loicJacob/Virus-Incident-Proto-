@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,18 +19,25 @@ public class Gun : MonoBehaviour
     {
         for (int i = 0; i < magazineNum; i++)
             magazines.Add(maxAmoInMagazine);
+
+        UIManager.Instance.RequestAmoUpdate += SendAmoUpdate;
     }
 
     private void OnEnable()
     {
         fireElapsedTime = fireRate;
 
-        UIManager.Instance.HUD.GetComponent<HUD>().SetAmoText(magazines[currentMagazinIndex], maxAmoInMagazine);
+        UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
     }
 
     private void Update()
     {
         fireElapsedTime += Time.deltaTime;
+    }
+
+    private void SendAmoUpdate()
+    {
+        UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
     }
 
     public void Shoot()
@@ -41,8 +49,7 @@ public class Gun : MonoBehaviour
             {
                 Instantiate(fireParticles, gunOutput).GetComponent<ParticleSystem>().Play();
                 magazines[currentMagazinIndex]--;
-
-                UIManager.Instance.HUD.GetComponent<HUD>().SetAmoText(magazines[currentMagazinIndex], maxAmoInMagazine);
+                UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
             }
         }
     }
@@ -54,6 +61,6 @@ public class Gun : MonoBehaviour
         if (currentMagazinIndex == magazineNum - 1)
             currentMagazinIndex = 0;
 
-        UIManager.Instance.HUD.GetComponent<HUD>().SetAmoText(magazines[currentMagazinIndex], maxAmoInMagazine);
+        UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
     }
 }
