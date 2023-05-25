@@ -10,7 +10,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private TrailRenderer bulletTrail;
     [SerializeField] private ParticleSystem fireParticles;
     [SerializeField] private ParticleSystem impactParticles_Metal;
-    [SerializeField] private ParticleSystem impactParticles_Blood;
+    [SerializeField] private ParticleSystem impactParticles_Wood;
+    [SerializeField] private ParticleSystem impactParticles_Dirt;
 
     [Header ("Settings")]
     [SerializeField] private LayerMask shootingMask;
@@ -64,16 +65,16 @@ public class Gun : MonoBehaviour
 
                 if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue, shootingMask))
                 {
-                    
-
-                    if (hit.collider.CompareTag("Zombie"))
+                    if (hit.collider.CompareTag("Shotable"))
                     {
-                        hit.collider.GetComponent<Zombie>().OnHit(hit.point, damage);
-                        Instantiate(impactParticles_Blood, hit.point, Quaternion.LookRotation(hit.normal));
+                        hit.collider.GetComponentInParent<ShotableObject>().OnHit(hit.point, hit.normal, damage);
                     }
                     else
                     {
-                        Instantiate(impactParticles_Metal, hit.point, Quaternion.LookRotation(hit.normal));
+                        //Check surface type
+                        //impactParticles_Metal.Play();
+                        //impactParticles_Dirt.Play();
+                        //impactParticles_Wood.Play();
                     }
 
                     //TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
@@ -116,8 +117,6 @@ public class Gun : MonoBehaviour
         }
 
         trail.transform.position = hit.point;
-        Instantiate(impactParticles_Metal, hit.point, Quaternion.LookRotation(hit.normal));
-
         Destroy(trail.gameObject, trail.time);
     }
 }

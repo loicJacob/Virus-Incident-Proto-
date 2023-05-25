@@ -2,10 +2,9 @@
 using System;
 using UnityEngine;
 
-public class Zombie : MonoBehaviour
+public class Zombie : ShotableObject
 {
     [SerializeField] private float life = 100;
-    [SerializeField] private int horizontalDistanceToHeadShot = 1;
 
     // animation IDs
     private int animIDSpeed;
@@ -39,7 +38,6 @@ public class Zombie : MonoBehaviour
         animIDFreeFall = Animator.StringToHash("FreeFall");
         animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 
-
         //Remove this later
         animator.SetBool(animIDFreeFall, false);
     }
@@ -69,15 +67,11 @@ public class Zombie : MonoBehaviour
 
     }
 
-    public void OnHit(Vector3 hitPoint, float damage)
+    public override void OnHit(Vector3 hitPoint, Vector3 hitNormal, float damage)
     {
-        Vector2 hitPointHorizontal = new Vector2(hitPoint.x, hitPoint.z);
-        Vector2 positionHorizontal = new Vector2(transform.position.x, transform.position.z);
+        base.OnHit(hitPoint, hitNormal, damage);
 
-        if (Vector3.Distance(hitPointHorizontal, positionHorizontal) < horizontalDistanceToHeadShot)
-            damage *= 2;
-
-        life -= damage;
+        life -= CheckCriticalHit(hitPoint, damage, 2);
 
         if (life <= 0)
             Die();
