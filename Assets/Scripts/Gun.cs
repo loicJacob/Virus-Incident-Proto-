@@ -7,8 +7,8 @@ public class Gun : MonoBehaviour
 {
     [Header("Serialized Objects")]
     [SerializeField] private Transform bulletSpawnPoint;
-    [SerializeField] private TrailRenderer bulletTrail;
-    [SerializeField] private ParticleSystem fireParticles;
+    [SerializeField] private ParticleSystem shotTracer;
+    [SerializeField] private ParticleSystem shotFlashParticles;
     [SerializeField] private ParticleSystem impactParticles_Metal;
     [SerializeField] private ParticleSystem impactParticles_Wood;
     [SerializeField] private ParticleSystem impactParticles_Dirt;
@@ -59,12 +59,15 @@ public class Gun : MonoBehaviour
             if (magazines[currentMagazinIndex] > 0)
             {
                 fireElapsedTime = 0;
-                fireParticles.Play();
+                shotFlashParticles.Play();
+                shotTracer.Play();
 
-                Vector3 direction = GetDirection();
+                Vector3 direction = transform.forward + new Vector3(Random.Range(-precisionLoss, precisionLoss), 0, 0);
 
-                if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue, shootingMask))
+                if (Physics.Raycast(bulletSpawnPoint.position, direction.normalized, out RaycastHit hit, float.MaxValue, shootingMask))
                 {
+                    shotTracer.Stop();
+
                     if (hit.collider.CompareTag("Shotable"))
                     {
                         hit.collider.GetComponentInParent<ShotableObject>().OnHit(hit.point, hit.normal, damage);
@@ -76,9 +79,6 @@ public class Gun : MonoBehaviour
                         //impactParticles_Dirt.Play();
                         //impactParticles_Wood.Play();
                     }
-
-                    //TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
-                    //StartCoroutine(SpawnTrail(trail, hit));
                 }
 
                 magazines[currentMagazinIndex]--;
@@ -95,28 +95,5 @@ public class Gun : MonoBehaviour
             currentMagazinIndex = 0;
 
         UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
-    }
-
-    private Vector3 GetDirection()
-    {
-        Vector3 direction = transform.forward + new Vector3(Random.Range(-precisionLoss, precisionLoss), 0, 0);
-        return direction.normalized;
-    }
-
-    private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hit)
-    {
-        float time = 0;
-        Vector3 startPos = trail.transform.position;
-
-        while (time < 1)
-        {
-            trail.transform.position = Vector3.Lerp(startPos, hit.point, time);
-            time += Time.deltaTime / trail.time;
-
-            yield return null;
-        }
-
-        trail.transform.position = hit.point;
-        Destroy(trail.gameObject, trail.time);
     }
 }
