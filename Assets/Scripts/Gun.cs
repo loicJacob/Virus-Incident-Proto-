@@ -1,22 +1,34 @@
 
-using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    [SerializeField] private GameObject fireParticles;
-    [SerializeField] private Transform gunOutput;
+    [Header("Serialized Objects")]
+    [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private TrailRenderer bulletTrail;
+    [SerializeField] private ParticleSystem fireParticles;
+    [SerializeField] private ParticleSystem impactParticles_Metal;
+    [SerializeField] private ParticleSystem impactParticles_Blood;
+
+    [Header ("Settings")]
+    [SerializeField] private LayerMask shootingMask;
+    [SerializeField] private float precisionLoss = 0.01f;
     [SerializeField] private int maxAmoInMagazine;
     [SerializeField] private int magazineNum;
     [SerializeField] private float fireRate = 0.1f;
+    [SerializeField] private float damage = 5f;
 
+    private Animator animator;
     private List<int> magazines = new List<int>();
     private int currentMagazinIndex = 0;
     private float fireElapsedTime = 0;
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
+
         for (int i = 0; i < magazineNum; i++)
             magazines.Add(maxAmoInMagazine);
 
@@ -26,7 +38,6 @@ public class Gun : MonoBehaviour
     private void OnEnable()
     {
         fireElapsedTime = fireRate;
-
         UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
     }
 
@@ -44,10 +55,31 @@ public class Gun : MonoBehaviour
     {
         if (fireElapsedTime > fireRate)
         {
-            fireElapsedTime = 0;
             if (magazines[currentMagazinIndex] > 0)
             {
-                Instantiate(fireParticles, gunOutput).GetComponent<ParticleSystem>().Play();
+                fireElapsedTime = 0;
+                fireParticles.Play();
+
+                Vector3 direction = GetDirection();
+
+                if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue, shootingMask))
+                {
+                    
+
+                    if (hit.collider.CompareTag("Zombie"))
+                    {
+                        hit.collider.GetComponent<Zombie>().OnHit(hit.point, damage);
+                        Instantiate(impactParticles_Blood, hit.point, Quaternion.LookRotation(hit.normal));
+                    }
+                    else
+                    {
+                        Instantiate(impactParticles_Metal, hit.point, Quaternion.LookRotation(hit.normal));
+                    }
+
+                    //TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
+                    //StartCoroutine(SpawnTrail(trail, hit));
+                }
+
                 magazines[currentMagazinIndex]--;
                 UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
             }
@@ -62,5 +94,30 @@ public class Gun : MonoBehaviour
             currentMagazinIndex = 0;
 
         UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
+    }
+
+    private Vector3 GetDirection()
+    {
+        Vector3 direction = transform.forward + new Vector3(Random.Range(-precisionLoss, precisionLoss), 0, 0);
+        return direction.normalized;
+    }
+
+    private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hit)
+    {
+        float time = 0;
+        Vector3 startPos = trail.transform.position;
+
+        while (time < 1)
+        {
+            trail.transform.position = Vector3.Lerp(startPos, hit.point, time);
+            time += Time.deltaTime / trail.time;
+
+            yield return null;
+        }
+
+        trail.transform.position = hit.point;
+        Instantiate(impactParticles_Metal, hit.point, Quaternion.LookRotation(hit.normal));
+
+        Destroy(trail.gameObject, trail.time);
     }
 }
