@@ -79,6 +79,7 @@ public class Zombie : ShotableObject
 
     private void Die()
     {
+        Debug.Log("Zombie killed");
         Destroy(gameObject);
     }
 }
