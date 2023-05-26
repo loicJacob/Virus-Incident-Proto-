@@ -10,6 +10,8 @@ public class ThirdPersonController : MonoBehaviour
     [SerializeField] private GameObject oneHandedGunSlot;
     [SerializeField] private GameObject twoHandedGunSlot;
     [SerializeField] private GameObject specialGunSlot;
+    [SerializeField] private GameObject placeHolder_testThrowable;
+    [SerializeField] private Transform throwableSpawnPoint;
 
     [Header("Player")]
     [SerializeField] private float MoveSpeed = 2.0f;
@@ -47,6 +49,9 @@ public class ThirdPersonController : MonoBehaviour
 
     [SerializeField] private LayerMask groundLayers;
 
+    [SerializeField] private float throwStrength = 500f;
+    [SerializeField] private float throwVerticalAngle = 20;
+
     // player
     private float speed;
     private float animationBlend;
@@ -79,6 +84,7 @@ public class ThirdPersonController : MonoBehaviour
     private Gun currentGun;
     private Gun lastBasicGunUsed;
     private Quaternion camForwardOn2DPlane;
+    private Throwable activeThrowable;
 
     private void Awake()
     {
@@ -100,6 +106,8 @@ public class ThirdPersonController : MonoBehaviour
         input.OnHoldFire += Fire;
         input.OnReleaseFire += ReleaseFire;
         input.OnPressJump += TriggerJump;
+        input.OnPressThrow += ActiveThrow;
+        input.OnReleaseThrow += Throw;
 
         AssignAnimationIDs();
 
@@ -125,6 +133,21 @@ public class ThirdPersonController : MonoBehaviour
         GroundedCheck();
         Move();
         Aim();
+    }
+
+    private void ActiveThrow()
+    {
+        activeThrowable = Instantiate(placeHolder_testThrowable, throwableSpawnPoint.position, Quaternion.identity, transform).GetComponent<Throwable>();
+    }
+
+    private void Throw()
+    {
+        if (activeThrowable == null)
+            return;
+
+        activeThrowable.transform.parent = transform.parent;
+        activeThrowable.Throw((Quaternion.Euler(new Vector3(throwVerticalAngle, 0, 0)) * transform.forward).normalized * throwStrength);
+        activeThrowable = null;
     }
 
     private void Fire()

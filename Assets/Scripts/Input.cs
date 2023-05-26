@@ -20,6 +20,7 @@ public class Input : MonoBehaviour
 	public Action OnPressChangeWeapon;
 	public Action OnPressReload;
 	public Action OnPressJump;
+	public Action OnPressThrow;
 
 	// Input on press longer events
 	public Action OnPressLongChangeWeapon;
@@ -27,6 +28,7 @@ public class Input : MonoBehaviour
 
 	public Action OnHoldFire;
 	public Action OnReleaseFire;
+	public Action OnReleaseThrow;
 
 	[Header("Movement Settings")]
 	[SerializeField] private float timeToHoldChangeWeapon = 0.5f;
@@ -64,19 +66,19 @@ public class Input : MonoBehaviour
 	}
 
 	//Value functions (call every changement of value)
-	public void OnMove(InputValue value)
+	private void OnMove(InputValue value)
 	{
 		moveDirection = value.Get<Vector2>();
 	}
 
-	public void OnAim(InputValue value)
+	private void OnAim(InputValue value)
 	{
 		if (cursorInputForLook)
 			aimDirection = value.Get<Vector2>();
 	}
 
 	//Pass Through functions (call every changement of button state)
-	public void OnReload(InputValue value)
+	private void OnReload(InputValue value)
 	{
 		isPressingReload = value.isPressed;
 
@@ -103,12 +105,12 @@ public class Input : MonoBehaviour
 		}
 	}
 
-	public void OnSprint(InputValue value)
+	private void OnSprint(InputValue value)
 	{
 		isPressingSprint = value.isPressed;
 	}
 
-	public void OnFire(InputValue value)
+	private void OnFire(InputValue value)
     {
 		isPressingFire = value.isPressed;
 
@@ -116,7 +118,7 @@ public class Input : MonoBehaviour
 			OnReleaseFire.Invoke();
 	}
 
-	public void OnChangeWeapon(InputValue value)
+	private void OnChangeWeapon(InputValue value)
 	{
 		isPressingChangeWeapon = value.isPressed;
 
@@ -143,33 +145,36 @@ public class Input : MonoBehaviour
 		}
 	}
 
-	public void OnThrow(InputValue value)
+	private void OnThrow(InputValue value)
 	{
-		isPressingThrow = value.isPressed;
+		if (value.isPressed)
+			OnPressThrow.Invoke();
+		else
+			OnReleaseThrow.Invoke();
 	}
 
 	//Button functions
-	public void OnJump(InputValue value)
+	private void OnJump(InputValue value)
 	{
 		OnPressJump.Invoke();
 	}
 
-	public void OnWeaponAbility(InputValue value)
+	private void OnWeaponAbility(InputValue value)
 	{
 		OnPressWeaponAbility.Invoke();
 	}
 
-	public void OnChangeThrow(InputValue value)
+	private void OnChangeThrow(InputValue value)
 	{
 		OnPressChangeThrow.Invoke();
 	}
 
-	public void OnLamp(InputValue value)
+	private void OnLamp(InputValue value)
 	{
 		OnPressLamp.Invoke();
 	}
 
-	public void OnKnife(InputValue value)
+	private void OnKnife(InputValue value)
 	{
 		OnPressKnife.Invoke();
 	}
