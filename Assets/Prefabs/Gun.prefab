@@ -162,11 +162,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpawnPoint: {fileID: 1956271558}
-  shotTracer: {fileID: 0}
   shotFlashParticles: {fileID: 6953490286009911655}
   impactParticles_Metal: {fileID: 198011925041146442, guid: 57e18706e2792ff4bb5561ed74b796e2, type: 3}
   impactParticles_Wood: {fileID: 198517247309888930, guid: 2b28f2fdc5a65964f96ea4d2b9d6ca63, type: 3}
   impactParticles_Dirt: {fileID: 198054064319151800, guid: 4f703a1da613efc43b08b1d2bdcfd49f, type: 3}
+  shotClip: {fileID: 8300000, guid: 5f1cde1c874ddd845a4459d7a862e9b2, type: 3}
+  reloadClip: {fileID: 8300000, guid: 07b47d2f55c19d64283e6653ca6d7d74, type: 3}
+  noAmoClip: {fileID: 8300000, guid: 85f75e5d26a8b6d47915f78c545ea47b, type: 3}
   shootingMask:
     serializedVersion: 2
     m_Bits: 1

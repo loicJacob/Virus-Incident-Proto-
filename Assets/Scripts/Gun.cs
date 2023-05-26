@@ -12,6 +12,10 @@ public class Gun : MonoBehaviour
     [SerializeField] private ParticleSystem impactParticles_Wood;
     [SerializeField] private ParticleSystem impactParticles_Dirt;
 
+    [SerializeField] private AudioClip shotClip;
+    [SerializeField] private AudioClip reloadClip;
+    [SerializeField] private AudioClip noAmoClip;
+
     [Header ("Settings")]
     [SerializeField] private LayerMask shootingMask;
     [SerializeField] private float precisionLoss = 0.01f;
@@ -55,11 +59,14 @@ public class Gun : MonoBehaviour
     {
         if (fireElapsedTime > fireRate)
         {
+            fireElapsedTime = 0;
+
             if (magazines[currentMagazinIndex] > 0)
             {
-                fireElapsedTime = 0;
                 shotFlashParticles.Play();
                 // Play a trail here
+
+                AudioSource.PlayClipAtPoint(shotClip, transform.position);
 
                 Vector3 direction = transform.forward + new Vector3(Random.Range(-precisionLoss, precisionLoss), 0, 0);
 
@@ -81,6 +88,10 @@ public class Gun : MonoBehaviour
                 magazines[currentMagazinIndex]--;
                 UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
             }
+            else
+            {
+                AudioSource.PlayClipAtPoint(noAmoClip, transform.position);
+            }
         }
     }
 
@@ -91,6 +102,7 @@ public class Gun : MonoBehaviour
         if (currentMagazinIndex == magazineNum - 1)
             currentMagazinIndex = 0;
 
+        AudioSource.PlayClipAtPoint(reloadClip, transform.position);
         UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
     }
 }
