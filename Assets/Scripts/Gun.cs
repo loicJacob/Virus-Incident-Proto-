@@ -7,7 +7,6 @@ public class Gun : MonoBehaviour
 {
     [Header("Serialized Objects")]
     [SerializeField] private Transform bulletSpawnPoint;
-    [SerializeField] private ParticleSystem shotTracer;
     [SerializeField] private ParticleSystem shotFlashParticles;
     [SerializeField] private ParticleSystem impactParticles_Metal;
     [SerializeField] private ParticleSystem impactParticles_Wood;
@@ -60,14 +59,12 @@ public class Gun : MonoBehaviour
             {
                 fireElapsedTime = 0;
                 shotFlashParticles.Play();
-                shotTracer.Play();
+                // Play a trail here
 
                 Vector3 direction = transform.forward + new Vector3(Random.Range(-precisionLoss, precisionLoss), 0, 0);
 
                 if (Physics.Raycast(bulletSpawnPoint.position, direction.normalized, out RaycastHit hit, float.MaxValue, shootingMask))
                 {
-                    shotTracer.Stop();
-
                     if (hit.collider.CompareTag("Shotable"))
                     {
                         hit.collider.GetComponentInParent<ShotableObject>().OnHit(hit.point, hit.normal, damage);
