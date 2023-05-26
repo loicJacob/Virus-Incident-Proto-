@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -29,6 +28,8 @@ public class Gun : MonoBehaviour
     private int currentMagazinIndex = 0;
     private float fireElapsedTime = 0;
 
+    private bool hasPlayNoAmoSound = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -43,6 +44,7 @@ public class Gun : MonoBehaviour
     {
         fireElapsedTime = fireRate;
         UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
+        OnReleaseTrigger();
     }
 
     private void Update()
@@ -90,7 +92,11 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                AudioSource.PlayClipAtPoint(noAmoClip, transform.position);
+                if (!hasPlayNoAmoSound)
+                {
+                    hasPlayNoAmoSound = true;
+                    AudioSource.PlayClipAtPoint(noAmoClip, transform.position);
+                }
             }
         }
     }
@@ -104,5 +110,10 @@ public class Gun : MonoBehaviour
 
         AudioSource.PlayClipAtPoint(reloadClip, transform.position);
         UIManager.Instance.OnUpdateAmo?.Invoke(magazines[currentMagazinIndex], maxAmoInMagazine);
+    }
+
+    public void OnReleaseTrigger()
+    {
+        hasPlayNoAmoSound = false;
     }
 }

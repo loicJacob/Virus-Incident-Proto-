@@ -26,6 +26,7 @@ public class Input : MonoBehaviour
 	public Action OnPressLongReload;
 
 	public Action OnHoldFire;
+	public Action OnReleaseFire;
 
 	[Header("Movement Settings")]
 	[SerializeField] private float timeToHoldChangeWeapon = 0.5f;
@@ -110,7 +111,10 @@ public class Input : MonoBehaviour
 	public void OnFire(InputValue value)
     {
 		isPressingFire = value.isPressed;
-    }
+
+		if (!value.isPressed)
+			OnReleaseFire.Invoke();
+	}
 
 	public void OnChangeWeapon(InputValue value)
 	{

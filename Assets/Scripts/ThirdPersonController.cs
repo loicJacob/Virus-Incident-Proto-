@@ -98,6 +98,7 @@ public class ThirdPersonController : MonoBehaviour
         input.OnPressReload += Reload;
         input.OnPressLongReload += ToggleReloadMenu;
         input.OnHoldFire += Fire;
+        input.OnReleaseFire += ReleaseFire;
         input.OnPressJump += TriggerJump;
 
         AssignAnimationIDs();
@@ -129,6 +130,11 @@ public class ThirdPersonController : MonoBehaviour
     private void Fire()
     {
         currentGun.Shoot();
+    }
+
+    private void ReleaseFire()
+    {
+        currentGun.OnReleaseTrigger();
     }
 
     private void SwitchLampOn()
