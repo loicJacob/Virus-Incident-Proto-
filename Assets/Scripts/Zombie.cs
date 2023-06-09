@@ -5,11 +5,17 @@ using UnityEngine.AI;
 
 public class Zombie : ShotableObject
 {
-    [SerializeField] private Transform placeHolder_Target;
-
     [SerializeField] private AudioClip landingAudioClip;
     [SerializeField] private AudioClip[] footstepAudioClips;
     [SerializeField, Range(0, 1)] private float footstepAudioVolume = 0.5f;
+
+    [SerializeField] private float visionDistance;
+    [SerializeField, Range(0, 360)] private float visionAngle;
+    [SerializeField] private LayerMask visionObstructionMask;
+    [SerializeField] private LayerMask chasedObjectMask;
+
+    public float VisionDistance => visionDistance;
+    public float VisionAngle => visionAngle;
 
     // animation IDs
     private int animIDSpeed;
@@ -17,10 +23,11 @@ public class Zombie : ShotableObject
     private int animIDFreeFall;
     private int animIDMotionSpeed;
 
-    private Animator animator;
-
     private Action DoAction;
+    private Animator animator;
     private NavMeshAgent navMeshAgent;
+
+    private Transform chaseTarget;
 
     private void Awake()
     {
@@ -50,22 +57,26 @@ public class Zombie : ShotableObject
         DoAction.Invoke();
     }
 
-    public void EditorTestChase(bool value)
+#if UNITY_EDITOR
+    public void EditorTestPatrol()
     {
-        navMeshAgent.isStopped = !value;
-
-        if (value)
-            SetModeChase();
-        else
-        {
-            animator.SetFloat(animIDSpeed, 0);
-            SetModeVoid();
-        }
+        SetModePatrol();
     }
+
+    public void EditorTestChase()
+    {
+        SetModeChase();
+    }
+#endif
 
     private void SetModeVoid()
     {
         DoAction = DoActionVoid;
+    }
+
+    private void SetModePatrol()
+    {
+        DoAction = DoActionPatrol;
     }
 
     private void SetModeChase()
@@ -78,12 +89,41 @@ public class Zombie : ShotableObject
         
     }
 
+    private void DoActionPatrol()
+    {
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, visionDistance, chasedObjectMask);
+
+        if (rangeChecks.Length != 0)
+        {
+            Transform target = rangeChecks[0].transform;
+            Vector3 toTarget = target.position - transform.position;
+            float toTargetDistance = toTarget.magnitude;
+            toTarget.Normalize();
+
+            if (Vector3.Angle(transform.forward, toTarget) < visionAngle / 2)
+            {
+                if (!Physics.Raycast(transform.position, toTarget, toTargetDistance, visionObstructionMask))
+                {
+                    chaseTarget = target;
+                    SetModeChase();
+                }
+            }
+        }
+    }
+
     private void DoActionChase()
     {
-        navMeshAgent.destination = placeHolder_Target.position;
+        navMeshAgent.destination = chaseTarget.position;
 
         animator.SetFloat(animIDSpeed, navMeshAgent.velocity.magnitude);
         animator.SetFloat(animIDMotionSpeed, 1);
+    }
+
+    public override void OnHit(Vector3 hitPoint, Vector3 hitNormal, float damage, float knockBackForce)
+    {
+        base.OnHit(hitPoint, hitNormal, damage, knockBackForce);
+
+        navMeshAgent.velocity += -hitNormal * knockBackForce;
     }
 
     // Called in animation frame
@@ -106,5 +146,11 @@ public class Zombie : ShotableObject
         {
             AudioSource.PlayClipAtPoint(landingAudioClip, transform.position, footstepAudioVolume);
         }
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        Destroy(gameObject);
     }
 }

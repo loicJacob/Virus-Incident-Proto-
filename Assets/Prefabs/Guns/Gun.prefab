@@ -176,7 +176,8 @@ MonoBehaviour:
   maxAmoInMagazine: 7
   magazineNum: 5
   fireRate: 0.44
-  damage: 5
+  damage: 1
+  knockBackForce: 3
 --- !u!1 &7114154256260558981
 GameObject:
   m_ObjectHideFlags: 0

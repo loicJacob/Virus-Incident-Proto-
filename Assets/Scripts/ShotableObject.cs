@@ -10,10 +10,9 @@ public class ShotableObject : MonoBehaviour
 
     protected bool isCriticalHitted = false;
 
-    public virtual void OnHit(Vector3 hitPoint, Vector3 hitNormal, float damage)
+    public virtual void OnHit(Vector3 hitPoint, Vector3 hitNormal, float damage, float knockBackForce)
     {
         Instantiate(shootedParticles, hitPoint, Quaternion.LookRotation(hitNormal, Vector3.up));
-
 
         isCriticalHitted = false;
         life -= CheckCriticalHit(hitPoint, damage, 2);

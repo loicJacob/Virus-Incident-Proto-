@@ -22,6 +22,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private int magazineNum;
     [SerializeField] private float fireRate = 0.1f;
     [SerializeField] private float damage = 5f;
+    [SerializeField] private float knockBackForce = 5f;
 
     private Animator animator;
     private List<int> magazines = new List<int>();
@@ -76,7 +77,7 @@ public class Gun : MonoBehaviour
                 {
                     if (hit.collider.CompareTag("Shotable"))
                     {
-                        hit.collider.GetComponentInParent<ShotableObject>().OnHit(hit.point, hit.normal, damage);
+                        hit.collider.GetComponentInParent<ShotableObject>().OnHit(hit.point, hit.normal, damage, knockBackForce);
                     }
                     else
                     {

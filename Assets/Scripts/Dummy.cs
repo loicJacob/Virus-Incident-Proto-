@@ -17,9 +17,9 @@ public class Dummy : ShotableObject
         life = maxLife;
     }
 
-    public override void OnHit(Vector3 hitPoint, Vector3 hitNormal, float damage)
+    public override void OnHit(Vector3 hitPoint, Vector3 hitNormal, float damage, float knockBackForce)
     {
-        base.OnHit(hitPoint, hitNormal, damage);
+        base.OnHit(hitPoint, hitNormal, damage, knockBackForce);
         dmgTextController.DisplayText(isCriticalHitted);
     }
 
