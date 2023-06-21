@@ -14,6 +14,9 @@ public class Zombie : ShotableObject
     [SerializeField] private LayerMask visionObstructionMask;
     [SerializeField] private LayerMask chasedObjectMask;
 
+    [Header("To remove later")]
+    [SerializeField] private Transform player;
+
     public float VisionDistance => visionDistance;
     public float VisionAngle => visionAngle;
 
@@ -65,6 +68,7 @@ public class Zombie : ShotableObject
 
     public void EditorTestChase()
     {
+        chaseTarget = player;
         SetModeChase();
     }
 #endif

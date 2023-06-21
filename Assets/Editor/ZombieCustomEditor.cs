@@ -50,8 +50,6 @@ public class ZombieCustomEditor : Editor
 
         Handles.color = color;
         Handles.DrawSolidArc(script.transform.position, Vector3.up, arcStartPoint, script.VisionAngle, script.VisionDistance);
-        Handles.DrawLine(script.transform.position, script.transform.position + viewAngle01 * script.VisionDistance);
-        Handles.DrawLine(script.transform.position, script.transform.position + viewAngle02 * script.VisionDistance);
     }
 
     private Vector3 DirectionFromAngle(float eulerY, float angleDegrees)
