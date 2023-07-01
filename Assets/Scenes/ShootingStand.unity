@@ -1345,6 +1345,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 128704849815833670, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128704849815833670, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765337718390367017, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765337718390367017, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3504765205064897740, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
       propertyPath: m_Name
       value: Zombie
@@ -1391,6 +1407,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3504765205064897742, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5431675441932800745, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5431675441932800745, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8771474918492564024, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8771474918492564024, guid: 7a0d377034247954dac13886f9f7ecdf, type: 3}
+      propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

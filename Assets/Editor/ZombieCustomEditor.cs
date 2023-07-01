@@ -41,15 +41,23 @@ public class ZombieCustomEditor : Editor
     private void OnSceneGUI()
     {
         // Draw vision cone
-        Vector3 viewAngle01 = DirectionFromAngle(script.transform.eulerAngles.y, -script.VisionAngle / 2);
-        Vector3 viewAngle02 = DirectionFromAngle(script.transform.eulerAngles.y, script.VisionAngle / 2);
-        Vector3 arcStartPoint = (script.transform.position + viewAngle01) - script.transform.position;
+        DrawCone(Color.yellow, script.transform.position, script.transform.eulerAngles.y, script.VisionAngle, script.VisionDistance);
 
-        Color color = Color.yellow;
+        // Draw attack trigger
+        Color color = Color.red;
         color.a = 0.2f;
-
         Handles.color = color;
-        Handles.DrawSolidArc(script.transform.position, Vector3.up, arcStartPoint, script.VisionAngle, script.VisionDistance);
+        Handles.DrawSolidDisc(script.transform.position, Vector3.up, script.DistanceToAttack);
+    }
+
+    private void DrawCone(Color color, Vector3 originPos, float originEulerY, float angle, float range)
+    {
+        Vector3 viewAngle01 = DirectionFromAngle(originEulerY, -angle / 2);
+        Vector3 arcStartPoint = (originPos + viewAngle01) - originPos;
+
+        color.a = 0.2f;
+        Handles.color = color;
+        Handles.DrawSolidArc(originPos, Vector3.up, arcStartPoint, angle, range);
     }
 
     private Vector3 DirectionFromAngle(float eulerY, float angleDegrees)
